@@ -69,7 +69,7 @@ export default function BreadCrumb({ location }: { location: Location }) {
     return (
         <Breadcrumb
             className='ml-4'
-            items={breadcrumbItems.map((item, index) => ({
+            items={breadcrumbItems.map((item) => ({
                 title: (
                     <span
                     // onClick={() => index !== breadcrumbItems.length - 1 && navigate(item.path)}
