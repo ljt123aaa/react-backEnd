@@ -6,7 +6,6 @@ import App from './App.tsx'
 import 'antd/dist/reset.css';
 import 'dayjs/locale/zh-cn';
 
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>

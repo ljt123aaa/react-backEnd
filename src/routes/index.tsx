@@ -1,14 +1,16 @@
 import React from "react";
 import { Navigate, useRoutes, Outlet } from "react-router-dom";
-import { useAuthStore } from "../store/useAuthStore";
 import Home from "../views/home";
 import MainLayout from "../Layout/MainLayout";
 import Login from "../views/Login";
 import User from "../views/user/index";
-import { HomeOutlined, UserOutlined, UnorderedListOutlined, ScissorOutlined, StrikethroughOutlined } from '@ant-design/icons';
 import NotFound from "../views/404";
 import AgentManagement from "../views/agent/index";
 import AgentLogs from "../views/agent/log";
+import Watermark from "../views/demo/watermark";
+
+import { useAuthStore } from "../store/useAuthStore";
+import { HomeOutlined, UserOutlined, UnorderedListOutlined, ScissorOutlined, StrikethroughOutlined, KubernetesOutlined, DotChartOutlined } from '@ant-design/icons';
 
 // 定义路由元数据类型
 export interface RouteMeta {
@@ -84,7 +86,22 @@ export const routesConfig: RouteConfig[] = [
                     },
                 ],
             },
-            // 移除：把/404从鉴权路由的children中移出，避免未登录时访问404被拦截
+            // 新增：水印路由
+            {
+                path: '/demo',
+                element: <Outlet />,
+                meta: {
+                    label: '组件',
+                    icon: <KubernetesOutlined />
+                },
+                children: [
+                    {
+                        path: 'watermark',
+                        element: <Watermark />,
+                        meta: { label: '水印', icon: <DotChartOutlined /> },
+                    },
+                ]
+            },
         ],
     },
     // 新增：单独配置404路由，不包裹鉴权，所有用户都能访问

@@ -5,3 +5,29 @@
   height: 100%;
   background-color: #f5f5f5;
 }
+
+/* View Transition API 样式 */
+/* 统一View Transition基础规则：始终让新状态在上，旧状态在下 */
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none;
+  /* 旧状态不主动动画 */
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: clip-expand 0.5s ease-in-out forwards;
+  /* 新状态执行扩散动画 */
+}
+
+/* 扩散动画：从点击位置全屏展开 */
+@keyframes clip-expand {
+  from {
+    clip-path: circle(0% at var(--x) var(--y));
+  }
+  to {
+    clip-path: circle(var(--r) at var(--x) var(--y));
+    opacity: 1;
+    /* 确保新状态完全显示 */
+  }
+}
