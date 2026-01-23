@@ -60,7 +60,7 @@ const SimpleVirtualTable: React.FC = () => {
   }, [fullData, pagination]);
 
   // 处理表格变化（排序、分页等）
-  const handleTableChange = (_: any, filters: any, sorter: SorterResult<UserData>, extra: any) => {
+  const handleTableChange = (_: any, sorter: SorterResult<UserData>) => {
     // 处理排序变化
     if (sorter) {
       const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
@@ -117,8 +117,8 @@ const SimpleVirtualTable: React.FC = () => {
           y: 600,
         }}
         virtual
-        onChange={(pagination, filters, sorter, extra) => {
-          handleTableChange(pagination, filters, Array.isArray(sorter) ? sorter[0] : sorter, extra);
+        onChange={(_, sorter) => {
+          handleTableChange(_, Array.isArray(sorter) ? sorter[0] : sorter);
         }}
       />
     </div>
