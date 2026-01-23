@@ -3,9 +3,10 @@ import SiderComponent from './Sider';
 import BreadCrumbComponent from './BreadCrumb';
 import FullscreenComponent from './Fullscreen';
 import Theme from './Theme';
+// import Spin from './Spin';
 
 import { useState, useEffect } from 'react';
-import { Layout, Button, Space, theme } from 'antd';
+import { Layout, Button, Space, theme, Skeleton } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import { useThemeStore } from '../store/useThemeStore';
@@ -26,9 +27,11 @@ export default function MainLayout() {
     // const [siderTheme, setSiderTheme] = useState('light');
     const siderTheme = useThemeStore((state) => state.siderTheme);
     const setSiderTheme = useThemeStore((state) => state.setSiderTheme);
+    const [spinning, setSpinning] = useState(false);
     const {
         token: { colorBgContainer, colorText },
     } = theme.useToken();
+    const loadingTime = 500;
 
     // 页面加载和路由切换时显示进度条
     useEffect(() => {
@@ -36,11 +39,13 @@ export default function MainLayout() {
             showSpinner: false,
         });
         NProgress.start();
+        setSpinning(true);
 
         // 模拟加载完成
         const timer = setTimeout(() => {
             NProgress.done();
-        }, 500);
+            setSpinning(false);
+        }, loadingTime);
 
         return () => {
             clearTimeout(timer);
@@ -66,7 +71,9 @@ export default function MainLayout() {
                                     icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                                     onClick={() => setCollapsed(!collapsed)}
                                 />
-                                <BreadCrumbComponent location={location} />
+                                <div className={`${collapsed ? 'hidden' : ''}`}>
+                                    <BreadCrumbComponent location={location} />
+                                </div>
                             </div>
                             <div className='flex items-center'>
                                 <FullscreenComponent />
@@ -81,7 +88,18 @@ export default function MainLayout() {
                     </Header>
 
                     <Content className='h-full p-4'>
-                        <Outlet />
+                        {spinning ? (
+                            <div className="w-full">
+                                <Skeleton
+                                    active
+                                    paragraph={{ rows: 10 }}
+                                    title
+                                    className="w-full"
+                                />
+                            </div>
+                        ) : (
+                            <Outlet />
+                        )}
                     </Content>
                 </Layout>
             </Layout>

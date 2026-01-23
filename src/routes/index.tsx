@@ -1,5 +1,7 @@
 import React from "react";
 import { Navigate, useRoutes, Outlet } from "react-router-dom";
+
+
 import Home from "../views/home";
 import MainLayout from "../Layout/MainLayout";
 import Login from "../views/Login";
@@ -8,6 +10,9 @@ import NotFound from "../views/404";
 import AgentManagement from "../views/agent/index";
 import AgentLogs from "../views/agent/log";
 import Watermark from "../views/demo/watermark";
+import VirtualTable from "../views/demo/virtualTable";
+import Tour from "../views/demo/tour";
+
 
 import { useAuthStore } from "../store/useAuthStore";
 import { HomeOutlined, UserOutlined, UnorderedListOutlined, ScissorOutlined, StrikethroughOutlined, KubernetesOutlined, DotChartOutlined } from '@ant-design/icons';
@@ -99,6 +104,18 @@ export const routesConfig: RouteConfig[] = [
                         path: 'watermark',
                         element: <Watermark />,
                         meta: { label: '水印', icon: <DotChartOutlined /> },
+                    },
+                    // 新增：虚拟表格路由
+                    {
+                        path: 'virtual-table',
+                        element: <VirtualTable />,
+                        meta: { label: '虚拟表格', icon: <DotChartOutlined /> },
+                    },
+                    // 新增：漫游路由
+                    {
+                        path: 'tour',
+                        element: <Tour />,
+                        meta: { label: '漫游', icon: <DotChartOutlined /> },
                     },
                 ]
             },
