@@ -1,4 +1,5 @@
 import Avatar from '../components/Avatar';
+import RouteTabs from '../components/RouteTabs';
 import SiderComponent from './Sider';
 import BreadCrumbComponent from './BreadCrumb';
 import FullscreenComponent from './Fullscreen';
@@ -63,7 +64,7 @@ export default function MainLayout() {
                 <SiderComponent siderTheme={siderTheme} collapsed={collapsed} colorText={colorText} setCollapsed={setCollapsed} />
 
                 <Layout className='h-full'>
-                    <Header className='!pr-4 !pl-2' style={{ padding: 0, background: colorBgContainer }}>
+                    <Header className='!pr-4 !pl-2 !h-[50px] flex items-center' style={{ padding: 0, background: colorBgContainer }}>
                         <Space className='w-full justify-between'>
                             <div className='flex items-center'>
                                 <Button
@@ -79,13 +80,15 @@ export default function MainLayout() {
                                 <FullscreenComponent />
                                 <Theme siderTheme={siderTheme} setSiderTheme={setSiderTheme} />
                                 <div className={`text-lg font-bold mx-4 flex items-center`}>
-                                    <Avatar size={55} className="mr-4" />
+                                    <Avatar size={40} className="mr-4" />
                                     <span>admin</span>
                                 </div>
                                 <Button onClick={handleLogout}>退出登录</Button>
                             </div>
                         </Space>
                     </Header>
+
+                    <RouteTabs />
 
                     <Content className='h-full p-4'>
                         {spinning ? (

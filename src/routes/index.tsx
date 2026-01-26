@@ -54,6 +54,7 @@ export const routesConfig: RouteConfig[] = [
                 <MainLayout />
             </ProtectedRoute>
         ),
+        meta: { label: '首页'},
         children: [
             {
                 path: '/', // 根路径默认渲染首页
