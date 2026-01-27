@@ -77,7 +77,7 @@ const calculateOpenKeys = (pathname: string): string[] => {
 };
 
 export default function SiderComponent({ siderTheme, collapsed, colorText, setCollapsed }: { siderTheme: string, collapsed: boolean, colorText: string, setCollapsed: (collapsed: boolean) => void }) {
-        
+
     const navigate = useNavigate();
 
     const [openKeys, setOpenKeys] = useState<string[]>([]);
@@ -92,7 +92,7 @@ export default function SiderComponent({ siderTheme, collapsed, colorText, setCo
     }
 
     if (!menuItemsRef.current) {
-        console.log('Generating menu items (ONLY ONCE after login)');
+        // console.log('Generating menu items (ONLY ONCE after login)');
         menuItemsRef.current = getMenuItems(mainRoutesRef.current, navigate);
     }
 

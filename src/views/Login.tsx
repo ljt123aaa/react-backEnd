@@ -22,7 +22,7 @@ export default function Login() {
     const onFinish = async (values: { username: string; password: string }) => {
         setLoading(true);
         try {
-            await new Promise((resolve) => setTimeout(resolve, 800));
+            await new Promise((resolve) => setTimeout(resolve, 500));
 
             if (values.username === 'admin' && values.password === '123456') {
                 login(generateSecureToken());

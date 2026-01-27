@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Tabs, Button, Tooltip, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
@@ -55,7 +55,7 @@ const getLabelByPath = (path: string): string => {
   return path.split('/').pop() || '未知页面';
 };
 
-const RouteTabs: React.FC = () => {
+const RouteTabs: React.FC<{ siderTheme: string }> = ({ siderTheme }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [tabs, setTabs] = useState<TabItem[]>([]);
@@ -192,7 +192,7 @@ const RouteTabs: React.FC = () => {
   };
 
   return (
-    <div className="bg-white px-1 flex items-center gap-2">
+    <div className={`px-1 flex items-center gap-2 ${siderTheme === 'dark' ? '' : 'bg-white'}`}>
       <Tabs
         activeKey={activeKey}
         onChange={handleTabChange}
@@ -210,4 +210,4 @@ const RouteTabs: React.FC = () => {
   );
 };
 
-export default RouteTabs;
+export default memo(RouteTabs);

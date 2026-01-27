@@ -1,3 +1,4 @@
+import { useState, useEffect, memo } from 'react';
 import Avatar from '../components/Avatar';
 import RouteTabs from '../components/RouteTabs';
 import SiderComponent from './Sider';
@@ -6,7 +7,6 @@ import FullscreenComponent from './Fullscreen';
 import Theme from './Theme';
 // import Spin from './Spin';
 
-import { useState, useEffect } from 'react';
 import { Layout, Button, Space, theme, Skeleton } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
@@ -20,22 +20,23 @@ import 'nprogress/nprogress.css';
 
 const { Header, Content } = Layout;
 
-export default function MainLayout() {
+export default memo(function MainLayout() {    
     const navigate = useNavigate();
     const location = useLocation();
     const logout = useAuthStore((state) => state.logout);
     const [collapsed, setCollapsed] = useState(false);
-    // const [siderTheme, setSiderTheme] = useState('light');
     const siderTheme = useThemeStore((state) => state.siderTheme);
     const setSiderTheme = useThemeStore((state) => state.setSiderTheme);
     const [spinning, setSpinning] = useState(false);
     const {
         token: { colorBgContainer, colorText },
     } = theme.useToken();
-    const loadingTime = 500;
+    const loadingTime = 300;
+
 
     // 页面加载和路由切换时显示进度条
     useEffect(() => {
+
         NProgress.configure({
             showSpinner: false,
         });
@@ -51,7 +52,7 @@ export default function MainLayout() {
         return () => {
             clearTimeout(timer);
         };
-    }, [location.pathname]);
+    }, [location.pathname, loadingTime]);
 
     const handleLogout = () => {
         logout();
@@ -88,7 +89,7 @@ export default function MainLayout() {
                         </Space>
                     </Header>
 
-                    <RouteTabs />
+                    <RouteTabs siderTheme={siderTheme} />
 
                     <Content className='h-full p-4'>
                         {spinning ? (
@@ -108,4 +109,4 @@ export default function MainLayout() {
             </Layout>
         </>
     );
-}
+});

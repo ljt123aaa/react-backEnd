@@ -7,21 +7,28 @@ interface ThemeState {
     initializeTheme: () => void,
 }
 
-// 初始化主题
-const initializeTheme = () => {
+// 获取存储的主题
+const getStoredTheme = () => {
     try {
         const storedTheme = localStorage.getItem('theme');
         if (storedTheme) {
             const parsedTheme = JSON.parse(storedTheme);
-            const theme = parsedTheme.state?.siderTheme || 'light';
-            if (theme === 'light') {
-                document.documentElement.classList.add('light');
-            } else {
-                document.documentElement.classList.remove('light');
-            }
-        } else {
-            // 默认添加 light 类
+            return parsedTheme.state?.siderTheme || 'light';
+        }
+    } catch (error) {
+        console.error('Failed to get stored theme:', error);
+    }
+    return 'light';
+};
+
+// 初始化主题
+const initializeTheme = () => {
+    try {
+        const theme = getStoredTheme();
+        if (theme === 'light') {
             document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
         }
     } catch (error) {
         console.error('Failed to initialize theme:', error);
@@ -33,10 +40,13 @@ const initializeTheme = () => {
 // 立即执行初始化
 initializeTheme();
 
+// 获取初始主题
+const initialTheme = getStoredTheme();
+
 export const useThemeStore = create<ThemeState>()(
     persist(
         (set) => ({
-            siderTheme: 'light',
+            siderTheme: initialTheme,
             setSiderTheme: (theme: string) => {
                 set({ siderTheme: theme});
                 // 同步切换 HTML 类名

@@ -32,13 +32,13 @@ export interface RouteConfig {
     children?: RouteConfig[];
 }
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+const ProtectedRoute = React.memo(({ children }: { children: React.ReactNode }) => {
     const token = useAuthStore((state) => state.token);
     if (!token) {
         return <Navigate to="/login" replace />;
     }
     return children;
-};
+});
 
 // 导出路由配置
 export const routesConfig: RouteConfig[] = [
