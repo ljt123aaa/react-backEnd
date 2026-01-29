@@ -33,14 +33,14 @@ export default function Dashboard() {
   const { siderTheme } = useThemeStore();
 
   // 检查主题值
-  // console.log('Current theme:', siderTheme);
+  console.log('Current theme:', siderTheme);
 
   // 根据主题获取图表颜色
   const isLightTheme = siderTheme === 'light';
   const chartTextColor = isLightTheme ? '#333' : '#fff';
   const barColor = isLightTheme ? '#1890ff' : '#177ddc';
   const lineColor = isLightTheme ? '#52c41a' : '#49aa19';
-  
+
   // 图表主题配置
   const chartTheme = isLightTheme ? 'light' : 'dark';
 

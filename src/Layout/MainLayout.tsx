@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useRef } from 'react';
 import Avatar from '../components/Avatar';
 import RouteTabs from '../components/RouteTabs';
 import SiderComponent from './Sider';
@@ -20,7 +20,7 @@ import 'nprogress/nprogress.css';
 
 const { Header, Content } = Layout;
 
-export default memo(function MainLayout() {    
+export default memo(function MainLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const logout = useAuthStore((state) => state.logout);
@@ -32,25 +32,34 @@ export default memo(function MainLayout() {
         token: { colorBgContainer, colorText },
     } = theme.useToken();
     const loadingTime = 300;
-
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     // 页面加载和路由切换时显示进度条
     useEffect(() => {
-
         NProgress.configure({
             showSpinner: false,
         });
         NProgress.start();
         setSpinning(true);
 
+        // 清除之前的定时器（如果存在）
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+        }
+
         // 模拟加载完成
-        const timer = setTimeout(() => {
+        timerRef.current = setTimeout(() => {
             NProgress.done();
             setSpinning(false);
+            timerRef.current = null;
         }, loadingTime);
 
         return () => {
-            clearTimeout(timer);
+            // 清理定时器
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+                timerRef.current = null;
+            }
         };
     }, [location.pathname, loadingTime]);
 
@@ -91,19 +100,22 @@ export default memo(function MainLayout() {
 
                     <RouteTabs siderTheme={siderTheme} />
 
-                    <Content className='h-full p-4'>
-                        {spinning ? (
-                            <div className="w-full">
-                                <Skeleton
-                                    active
-                                    paragraph={{ rows: 10 }}
-                                    title
-                                    className="w-full"
-                                />
-                            </div>
-                        ) : (
-                            <Outlet />
-                        )}
+                    <Content className='h-full p-4 overflow-auto'>
+                        <div className='w-full max-w-full'>
+                            {spinning ? (
+                                <div className="w-full">
+                                    <Skeleton
+                                        active
+                                        paragraph={{ rows: 10 }}
+                                        title
+                                        className="w-full"
+                                    />
+                                </div>
+                            ) : (
+                                <Outlet />
+                            )}
+                            {/* <Outlet /> */}
+                        </div>
                     </Content>
                 </Layout>
             </Layout>
